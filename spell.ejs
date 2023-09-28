@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spelling Guessing Game</title>
+    <style>
+        body {font-family: Arial, sans-serif;
+    background-image: url("https://media.istockphoto.com/id/850935974/photo/wooden-english-letters-background.jpg?s=612x612&w=0&k=20&c=l6AKI4-fqeG0MU8QDvfozZDDt2eZCAOHeraaBLDcYiw=");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+        }
+
+        #container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #word-display {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #input-box {
+            font-size: 18px;
+            padding: 5px;
+            margin: 10px;
+        }
+
+        #result {
+            font-size: 50px;
+            color: whitesmoke;
+        }
+
+        #game-container {
+            display: none;
+        }
+        
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+}
+
+#start-button {
+    background-color: green;
+    color: white;
+    font-size: 18px;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#start-button:hover {
+    background-color: darkgreen;
+}
+#check-button {
+    background-color: green;
+    color: white;
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#check-button:hover {
+    background-color: darkgreen;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Welcome to the Spelling Guessing Game</h1>
+        <p>Click "Start" to begin playing!</p>
+        <button id="start-button" onclick="startGame()">Start</button>
+        
+    </div>
+
+    <div id="game-container">
+        <div id="container">
+            <h1>Spelling Guessing Game</h1>
+            <p>Guess the correct spelling of the word:</p>
+            <div id="word-display"></div>
+            <input type="text" id="input-box" placeholder="Enter your guess">
+            <button onclick="checkSpelling()">Check</button>
+            <a href="/logout">Log-Out</a>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <script>
+        const words = ["apple", "sai", "banana", "chocolate", "jyothi", "swathi", "rakesh", "sukki", "elephant", "giraffe", "keyboard", "orange", "pizza", "strawberry", "watermelon"];
+        let currentWord = "";
+        let shuffledWord = "";
+        let correctAnswers = 0;
+        let attempts = 0;
+        const maxAttempts = 5;
+
+        function startGame() {
+            // Hide the homepage and show the game section.
+            document.getElementById("container").style.display = "none";
+            document.getElementById("game-container").style.display = "block";
+
+            if (attempts >= maxAttempts) {
+                // Display the final result when the user reaches the maximum number of attempts.
+                document.getElementById("result").textContent = `Game over! You got ${correctAnswers} out of ${maxAttempts} correct.`;
+                return;
+            }
+
+            currentWord = getRandomWord();
+            shuffledWord = shuffleWord(currentWord);
+            document.getElementById("word-display").textContent = shuffledWord;
+        }
+
+        function getRandomWord() {
+            const randomIndex = Math.floor(Math.random() * words.length);
+            return words[randomIndex];
+        }
+
+        function shuffleWord(word) {
+            let shuffledArray = word.split('');
+            do {
+                shuffledArray = shuffledArray.sort(() => Math.random() - 0.5);
+            } while (shuffledArray.join('') === word);
+            return shuffledArray.join('');
+        }
+
+        function checkSpelling() {
+    const userGuess = document.getElementById("input-box").value.toLowerCase();
+    if (userGuess === currentWord) {
+        correctAnswers++;
+    }
+    attempts++;
+
+    if (attempts >= maxAttempts) {
+        // Display the final result in an alert box when the user reaches the maximum number of attempts.
+        const resultMessage = `Game over! You got ${correctAnswers} out of ${maxAttempts} correct.`;
+        alert(resultMessage);
+    } else {
+        startGame();
+        document.getElementById("input-box").value = "";
+    }
+}
+
+
+        
+    </script>
+</body>
+</html>
